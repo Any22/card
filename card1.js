@@ -46,7 +46,7 @@
                 }
 
             updateTask(id,cname,pic,description,assignee,dDate,st) {                  //Function to update TASK
-                    alert("I am in update function");
+                    // alert("I am in update function");
                     // alert(id);
                     for (let i=0; i<this.cardArr.length;i++) {
                         
@@ -67,7 +67,7 @@
                     for (let i=0 ; i<this.cardArr.length; i++)
                         {
                             if (this.cardArr[i].id == id ){
-                            alert ("in delete" + i +" "+ this.cardArr[i].cname);
+                            // alert ("in delete" + i +" "+ this.cardArr[i].cname);
                             this.cardArr.splice(i,1);                               //An array (Array) containing the deleted elements.
                             break;
                             }
@@ -76,7 +76,7 @@
             }                     
             displayListHtml(){
                   
-                    alert("I am in display");
+                    // alert("I am in display");
                     this.master.innerHTML ="";
                     let cardhtml;
                     this.cardArr.forEach((nCard) => {
@@ -94,37 +94,121 @@
         const cardDeck=new CardManager(taskcontainer);                 //create an instance of card manager to access the members
          
         //adding tasks
-      
-        let addButton=document.querySelector("#addButton");
-        addButton.onclick= function(){
-        // alert("here i am card deck");
         let tname    = document.querySelector("#text1");                //accepting user input from form
         let tdes     = document.querySelector("#des");   
         let assignee = document.querySelector("#assignee");
         let dDate = document.querySelector("#dDate");
         let sTatus = document.querySelector("#stAtus");
+        let addButton=document.querySelector("#addButton");
+        // validation
+        let nmErrMsg = document.querySelector("#nmErrMsg"); 
+        let nmErrMsg1 = document.querySelector("#nmErrMsg1");
+        let nmErrMsg2 = document.querySelector("#nmErrMsg2");
+        let nmErrMsg3 = document.querySelector("#nmErrMsg3");
 
-               
-        // cardDeck.addcard("laundry","test","testing","Saeed","thursday","to do");
-        cardDeck.addcard(tname.value,"test",tdes.value,assignee.value,dDate.value,sTatus.value);
-        cardDeck.displayListHtml();
-        $('#myModal').modal('hide');
-             resetFields();
-        }
+        addButton.onclick= function(){
+        // alert("here i am card deck");
         
+        
+        // let nmErrMsg = document.querySelector("#nmErrMsg"); 
+        // let nmErrMsg1 = document.querySelector("#nmErrMsg1");
+        // let nmErrMsg2 = document.querySelector("#nmErrMsg2");
+        // let nmErrMsg3 = document.querySelector("#nmErrMsg3");
+        let validStatus ;
+      
+        if ( tname.value == "" || tname.value.length < 5)
+           {   
+              
+              nmErrMsg.innerHTML="*Please ,fill this field with atleast 8 characters";
+              nmErrMsg.style.color="red";
+              tname.style.borderColor = "red";
+                 tname.focus();
+              validStatus = false;
+              // break;
+           } else 
+           {
+             
+              validStatus = true;
+              
+           }
+     
+        if (tdes.value == "" || tdes.value.length < 10)                               
+           
+           { 
+              nmErrMsg1.innerHTML="*Please ,fill this field with atleast 15 characters";
+              nmErrMsg1.style.color="red";
+              tdes.style.borderColor = "red"; 
+              tdes.focus(); 
+              validStatus= false; 
+              //  break;
+           } else 
+           {
+              
+              tdes.style.borderColor = "green";
+              nmErrMsg1.innerHTML="looks good";
+              nmErrMsg1.style.color="green";
+              validStatus = true;
+           }
          
+        if (assignee.value == "" || assignee.value.length < 5)                               
+           
+             { 
+              nmErrMsg2.innerHTML="*Please ,fill this field with atleast 8 characsters";
+              nmErrMsg2.style.color="red";
+              assignee.style.borderColor = "red"; 
+              assignee.focus(); 
+              validStatus= false; 
+              //  break;
+             } 
+             else 
+             {
+                    
+                assignee.style.borderColor = "green";
+                nmErrMsg2.innerHTML="looks good";
+                nmErrMsg2.style.color="green";
+                validStatus = true;
+             }
+             if (validStatus==true)
+             {
+                nmErrMsg.innerHTML="looks good";
+                nmErrMsg.style.color="green";
+                tname.style.borderColor = "green";
+                //code before the pause
+                cardDeck.addcard(tname.value,"test",tdes.value,assignee.value,dDate.value,sTatus.value);
+                cardDeck.displayListHtml();
+               setTimeout(function(){
+                $("#myModal").modal("hide");
+                resetFields();
+             }, 900);
+                
+               
+             }else 
+             {
+               alert("Please, fill the mandatory fields");
+             }
+       
+          
+       }
+        
     function resetFields(){
         
-        tname.value     = null;
-        desc.value      = null;
-        dueDate.value   = null;
-        assign.value    = null;
-        status.value    = null;
+        tname.value    = null;
+        tdes.value     = null;
+        assignee.value = null;
+        dDate.value   = null;
+        sTatus.value  = null;
+        nmErrMsg.innerHTML="";
+        nmErrMsg1.innerHTML="";
+        nmErrMsg2.innerHTML="";
+        tname.style.borderColor = "lightgrey";
+        tdes.style.borderColor = "lightgrey"; 
+        assignee.style.borderColor = "lightgrey"; 
+        
     }
 
 
         function edifunc(){
-            alert("i am in editfun");
+            // alert("i am in editfun");
             let taskElement = event.target.closest(".Edit");                       
             let edtIdArr = taskElement.id.split("_");                               //spliting the id by underscore. i.e . dbuton_id 
             let retreiveId = edtIdArr[1];
@@ -165,7 +249,7 @@
     
     
        function delfunc(){
-         alert("i am in delete function");
+        //  alert("i am in delete function");
         let taskElement = event.target.closest(".delete");                      //see line 74.
         let delIdArr = taskElement.id.split("_");                               //spliting the id by underscore. i.e . dbuton_id 
         let retreiveId = delIdArr[1];
